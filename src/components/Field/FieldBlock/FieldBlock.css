@@ -1,0 +1,15 @@
+.FieldBlock{
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    background: green;
+    border: 2px solid black;
+}
+
+.FieldBlock__digged{
+    background: brown;
+}
+
+.FieldBlock__with_item{
+    background: gold;
+}
