@@ -2,21 +2,25 @@ import React from "react";
 import { useState } from "react";
 import './Field.css'
 import FieldBlock from "./FieldBlock/FieldBlock";
-import Button from "../../containers/Button/Button";
+import InfoMenu from "../InfoMenu/InfoMenu";
 
 const Field = () => {
-
+    let counter = 0
     const [field, setField] = useState([])
+    const [tries, setTries] = useState(counter)
+
 
     const clickBlock = (i) => {
         const index = field.findIndex(block => block.key === i)
         const copyArray = [...field]
-        if (copyArray[index].item === true){
+        if (copyArray[index].hasItem === true){
             copyArray[index].className = 'FieldBlock__with_item'
         } else{
             copyArray[index].className = 'FieldBlock__digged'
+            counter = counter + 1
         }
         setField(copyArray)
+        setTries(counter)
     }
 
     const buildField = () => {
@@ -26,7 +30,7 @@ const Field = () => {
             arrayHolder.push({
                 key: i, 
                 status: false,
-                item: i === randomNumber ? true : false,
+                hasItem: i === randomNumber ? true : false,
                 className: 'FieldBlock'
             })
         }
@@ -36,11 +40,20 @@ const Field = () => {
 
     return (
         <div className="Field">
+            {/* <div>
             <Button
                 buttonName = 'BUILD FIELD'
                 onClick = {buildField}
             />
-            
+
+            <Counter
+                text = {tries}
+            />
+            </div> */}
+            <InfoMenu
+                buildField = {buildField}
+                tries = {tries}
+            />
             {
                 field.map((block) => {
                     return <FieldBlock
