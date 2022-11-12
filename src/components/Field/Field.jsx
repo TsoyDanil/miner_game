@@ -5,9 +5,8 @@ import FieldBlock from "./FieldBlock/FieldBlock";
 import InfoMenu from "../InfoMenu/InfoMenu";
 
 const Field = () => {
-    let counter = 0
     const [field, setField] = useState([])
-    const [tries, setTries] = useState(counter)
+    const [tries, setTries] = useState(0)
 
 
     const clickBlock = (i) => {
@@ -17,10 +16,12 @@ const Field = () => {
             copyArray[index].className = 'FieldBlock__with_item'
         } else{
             copyArray[index].className = 'FieldBlock__digged'
-            counter = counter + 1
         }
+
+        const copyTries = tries + 1
+
         setField(copyArray)
-        setTries(counter)
+        setTries(copyTries)
     }
 
     const buildField = () => {
@@ -35,21 +36,11 @@ const Field = () => {
             })
         }
         setField([...arrayHolder])
-        console.log(field)
+        setTries(0)
     }
 
     return (
         <div className="Field">
-            {/* <div>
-            <Button
-                buttonName = 'BUILD FIELD'
-                onClick = {buildField}
-            />
-
-            <Counter
-                text = {tries}
-            />
-            </div> */}
             <InfoMenu
                 buildField = {buildField}
                 tries = {tries}
