@@ -11,7 +11,11 @@ const Field = () => {
     const clickBlock = (i) => {
         const index = field.findIndex(block => block.key === i)
         const copyArray = [...field]
-        copyArray[index].status = true
+        if (copyArray[index].item === true){
+            copyArray[index].className = 'FieldBlock__with_item'
+        } else{
+            copyArray[index].className = 'FieldBlock__digged'
+        }
         setField(copyArray)
     }
 
@@ -22,7 +26,8 @@ const Field = () => {
             arrayHolder.push({
                 key: i, 
                 status: false,
-                item: i === randomNumber ? true : false
+                item: i === randomNumber ? true : false,
+                className: 'FieldBlock'
             })
         }
         setField([...arrayHolder])
@@ -40,7 +45,7 @@ const Field = () => {
                 field.map((block) => {
                     return <FieldBlock
                         key = {block.key}
-                        className = {block.status ? 'FieldBlock__digged' : 'FieldBlock'}
+                        className = {block.className}
                         click = {() => {clickBlock(block.key)}}
                     />
                 })
