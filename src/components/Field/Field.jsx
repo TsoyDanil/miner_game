@@ -8,6 +8,7 @@ import CustomAlert from "../UI/CustomAlert/CustomAlert";
 const Field = () => {
     const [field, setField] = useState([])
     const [tries, setTries] = useState(0)
+    const [showAlert, setShowAlert] = useState(false)
     const [keepPlaying, setKeepPlaying] = useState(true)
 
     const clickBlock = (i) => {
@@ -15,17 +16,21 @@ const Field = () => {
             const index = field.findIndex(block => block.key === i)
             const copyArray = [...field]
             if (copyArray[index].hasItem === true){
-                copyArray[index].className = 'FieldBlock__with_item'
+                copyArray[index].className = 'FieldBlock__with_item gradient-border'
                 setKeepPlaying(false)
             } else{
-                copyArray[index].className = 'FieldBlock__digged'
+                copyArray[index].className = 'FieldBlock__digged gradient-border'
             }
             const copyTries = tries + 1
             setField(copyArray)
             setTries(copyTries)
         } else {
-            alert('YOU ALREADY FOUND TREASURE. BUILD FILED AGAIN TO PLAY')
+            setShowAlert(true)
         }
+    }
+
+    const hideAlert = () => {
+            setShowAlert(false)
     }
 
     const buildField = () => {
@@ -37,7 +42,7 @@ const Field = () => {
                 key: i, 
                 status: false,
                 hasItem: i === randomNumber ? true : false,
-                className: 'FieldBlock'
+                className: 'FieldBlock gradient-border'
             })
         }
         setField([...arrayHolder])
@@ -46,7 +51,11 @@ const Field = () => {
 
     return (
         <div className="Field">
-            <CustomAlert/>
+            <CustomAlert
+                alertButtonClick = {hideAlert}
+                text = 'YOU ALREADY FOUND TREASURE. BUILD FILED AGAIN TO PLAY'
+                show = {showAlert}
+            />
             <InfoMenu
                 buildField = {buildField}
                 tries = {tries}
