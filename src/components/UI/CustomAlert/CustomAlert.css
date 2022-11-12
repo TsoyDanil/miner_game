@@ -1,0 +1,20 @@
+.CustomAlert{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 900px;
+    width: 100%;
+    height: 500px;
+    background: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.CustomAlert__hidden{
+    top: -500%;
+}
+.CustomAlert__shown{
+    top: 50%;
+}

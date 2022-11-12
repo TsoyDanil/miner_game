@@ -3,28 +3,33 @@ import { useState } from "react";
 import './Field.css'
 import FieldBlock from "./FieldBlock/FieldBlock";
 import InfoMenu from "../InfoMenu/InfoMenu";
+import CustomAlert from "../UI/CustomAlert/CustomAlert";
 
 const Field = () => {
     const [field, setField] = useState([])
     const [tries, setTries] = useState(0)
-
+    const [keepPlaying, setKeepPlaying] = useState(true)
 
     const clickBlock = (i) => {
-        const index = field.findIndex(block => block.key === i)
-        const copyArray = [...field]
-        if (copyArray[index].hasItem === true){
-            copyArray[index].className = 'FieldBlock__with_item'
-        } else{
-            copyArray[index].className = 'FieldBlock__digged'
+        if (keepPlaying){
+            const index = field.findIndex(block => block.key === i)
+            const copyArray = [...field]
+            if (copyArray[index].hasItem === true){
+                copyArray[index].className = 'FieldBlock__with_item'
+                setKeepPlaying(false)
+            } else{
+                copyArray[index].className = 'FieldBlock__digged'
+            }
+            const copyTries = tries + 1
+            setField(copyArray)
+            setTries(copyTries)
+        } else {
+            alert('YOU ALREADY FOUND TREASURE. BUILD FILED AGAIN TO PLAY')
         }
-
-        const copyTries = tries + 1
-
-        setField(copyArray)
-        setTries(copyTries)
     }
 
     const buildField = () => {
+        setKeepPlaying(true)
         const randomNumber = Math.floor(Math.random()*36)
         let arrayHolder = []
         for (let i = 0; i < 36; i++){
@@ -41,6 +46,7 @@ const Field = () => {
 
     return (
         <div className="Field">
+            <CustomAlert/>
             <InfoMenu
                 buildField = {buildField}
                 tries = {tries}

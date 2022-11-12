@@ -1,6 +1,6 @@
 import React from "react";
 import './InfoMenu.css'
-import Button from "../../containers/Button/Button";
+import Button from "../UI/Button/Button";
 import Counter from "../../containers/Counter/Count";
 
 const InfoMenu = (props) => {
