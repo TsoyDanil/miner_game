@@ -4,10 +4,8 @@ import './FieldBlock.css'
 const FieldBlock = (props) => {
     return (
         <div 
-            className = 'FieldBlock'
-            onClick = {props.fieldBlockClick}
-            item = {props.item}
-            status = {props.status}
+            className = {props.className}
+            onClick = {props.click}
         >
         </div>
     )

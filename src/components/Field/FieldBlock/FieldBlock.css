@@ -7,7 +7,11 @@
 }
 
 .FieldBlock__digged{
+    width: 50px;
+    height: 50px;
+    margin: 5px;
     background: brown;
+    border: 2px solid black;
 }
 
 .FieldBlock__with_item{
