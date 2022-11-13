@@ -3,12 +3,12 @@ import './CustomAlert.css'
 
 const CustomAlert = (props) => {
 
-    const style = {
+    const visable = {
         top: props.show ? '50%' : '-500%'
     }
 
     return (
-        <div className="CustomAlert" style={style}>
+        <div className="CustomAlert" style={visable}>
             <p>{props.text}</p>
             <button className="CustomAlert__button" onClick={props.alertButtonClick}>OK</button>
         </div>
