@@ -113,7 +113,9 @@ const Field = () => {
         onClick = {showTip}
     />
     :
-    ''
+    <Button
+        buttonName = {'FIRST BUILD FIELD'}
+    />
 
     return (
         <div className="Field">
