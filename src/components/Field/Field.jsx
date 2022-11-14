@@ -26,11 +26,11 @@ const Field = () => {
             setTries(triesHolder)
             const copyArray = [...field]
             if (copyArray[index].hasItem === true){
-                copyArray[index].className = 'FieldBlock__with_item gradient-border'
+                copyArray[index].className = 'FieldBlock FieldBlock__with_item gradient-border'
                 slideAlert(`GREAT! YOU FOUND TREASURE IN ${triesHolder} TRIES`)
                 setKeepPlaying(false)
             } else{
-                copyArray[index].className = 'FieldBlock__digged gradient-border'
+                copyArray[index].className = 'FieldBlock FieldBlock__digged gradient-border'
                 copyArray[index].digged = true
             }
             setField(copyArray)
@@ -51,7 +51,7 @@ const Field = () => {
                 key: i, 
                 digged: false,
                 hasItem: i === randomNumber ? true : false,
-                className: 'FieldBlock gradient-border'
+                className: 'FieldBlock FieldBlock__unchecked gradient-border'
             })
         }
         setTipShown(false)
@@ -78,7 +78,7 @@ const Field = () => {
         const copyArray = [...field]
         indexArray.forEach((index) =>{
             if (!copyArray[index].digged){
-                copyArray[index].className = 'FieldBlock__marked gradient-border'
+                copyArray[index].className = 'FieldBlock FieldBlock__marked gradient-border'
             }
         })
         setField(copyArray)
