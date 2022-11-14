@@ -7,6 +7,7 @@ import InfoMenu from "../InfoMenu/InfoMenu";
 import CustomAlert from "../UI/CustomAlert/CustomAlert";
 
 const Field = () => {
+    const [tipShown, setTipShown] = useState(false)
     const [alertText, setAlertText] = useState('')
     const [field, setField] = useState([])
     const [tries, setTries] = useState(0)
@@ -38,6 +39,7 @@ const Field = () => {
     }
 
     const buildField = () => {
+        setTipShown(false)
         setKeepPlaying(true)
         setShowAlert(false)
         const randomNumber = Math.floor(Math.random()*36)
@@ -55,10 +57,28 @@ const Field = () => {
     }
 
     const showTip = () => {
-        const index = field.findIndex(block => block.hasItem === true)
-        const blockNumber = index + 1
-        setAlertText(`I FEEL THERE IS SOMETHING IN BLOCK NUMBER: ${blockNumber}`)
-        setShowAlert(true)
+        if (!tipShown){
+            const index = field.findIndex(block => block.hasItem === true)
+            let indexArray = [index]
+            for (let i = 0; i < 5; i++){
+                let randomIndex = Math.floor(Math.random()*field.length)
+                if (index === randomIndex){
+                    randomIndex = Math.floor(Math.random()*field.length)
+                }
+                indexArray.push(randomIndex)
+            }
+            const copyArray = [...field]
+            indexArray.forEach((index) =>{
+                copyArray[index].className = 'FieldBlock__marked gradient-border'
+            })
+            setField(copyArray)
+            setAlertText(`I MARKED BLOCKS WHERE TREASURE COULD BE`)
+            setShowAlert(true)
+            setTipShown(true)
+        } else{
+            setAlertText(`I ALREADY GAVE YOU TIP`)
+            setShowAlert(true)
+        }
     }
 
     const tipButton = keepPlaying ? 
