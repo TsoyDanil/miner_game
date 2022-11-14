@@ -14,23 +14,28 @@ const Field = () => {
     const [showAlert, setShowAlert] = useState(false)
     const [keepPlaying, setKeepPlaying] = useState(false)
 
+    const slideAlert = (text) => {
+        setAlertText(text)
+        setShowAlert(true)
+    }
+
     const clickBlock = (i) => {
-        if (keepPlaying){
-            setTries(tries + 1)
-            const index = field.findIndex(block => block.key === i)
+        const index = field.findIndex(block => block.key === i)
+        if (keepPlaying && field[index].digged === false){
+            let triesHolder = tries + 1
+            setTries(triesHolder)
             const copyArray = [...field]
             if (copyArray[index].hasItem === true){
                 copyArray[index].className = 'FieldBlock__with_item gradient-border'
-                setAlertText(`GREAT! YOU FOUND TREASURE IN ${tries + 1} TRIES`)
-                setShowAlert(true)
+                slideAlert(`GREAT! YOU FOUND TREASURE IN ${triesHolder} TRIES`)
                 setKeepPlaying(false)
             } else{
                 copyArray[index].className = 'FieldBlock__digged gradient-border'
+                copyArray[index].digged = true
             }
             setField(copyArray)
-        } else {
-            setAlertText('YOU ALREADY FOUND TREASURE. BUILD FILED AGAIN TO PLAY')
-            setShowAlert(true)
+        } else if (!keepPlaying){
+            slideAlert('YOU ALREADY FOUND TREASURE. BUILD FIELD AGAIN TO PLAY')
         }
     }
 
@@ -39,47 +44,68 @@ const Field = () => {
     }
 
     const buildField = () => {
-        setTipShown(false)
-        setKeepPlaying(true)
-        setShowAlert(false)
         const randomNumber = Math.floor(Math.random()*36)
         let arrayHolder = []
         for (let i = 0; i < 36; i++){
             arrayHolder.push({
                 key: i, 
-                status: false,
+                digged: false,
                 hasItem: i === randomNumber ? true : false,
                 className: 'FieldBlock gradient-border'
             })
         }
+        setTipShown(false)
+        setKeepPlaying(true)
+        setShowAlert(false)
         setField([...arrayHolder])
         setTries(0)
     }
 
     const showTip = () => {
-        if (!tipShown){
-            const index = field.findIndex(block => block.hasItem === true)
-            let indexArray = [index]
-            for (let i = 0; i < 5; i++){
-                let randomIndex = Math.floor(Math.random()*field.length)
-                if (index === randomIndex){
-                    randomIndex = Math.floor(Math.random()*field.length)
-                }
-                indexArray.push(randomIndex)
-            }
-            const copyArray = [...field]
-            indexArray.forEach((index) =>{
-                copyArray[index].className = 'FieldBlock__marked gradient-border'
-            })
-            setField(copyArray)
-            setAlertText(`I MARKED BLOCKS WHERE TREASURE COULD BE`)
-            setShowAlert(true)
-            setTipShown(true)
-        } else{
-            setAlertText(`I ALREADY GAVE YOU TIP`)
-            setShowAlert(true)
+        if (tipShown){
+            slideAlert(`I ALREADY GAVE YOU TIP`)
+            return
         }
+        const index = field.findIndex(block => block.hasItem === true)
+        let indexArray = [index]
+        for (let i = 0; i < 5; i++){
+            let randomIndex = Math.floor(Math.random()*field.length)
+            if (index === randomIndex){
+                randomIndex = Math.floor(Math.random()*field.length)
+            }
+            indexArray.push(randomIndex)
+        }
+        const copyArray = [...field]
+        indexArray.forEach((index) =>{
+            if (!copyArray[index].digged){
+                copyArray[index].className = 'FieldBlock__marked gradient-border'
+            }
+        })
+        setField(copyArray)
+        slideAlert(`I MARKED BLOCKS WHERE TREASURE COULD BE`)
+        setTipShown(true)
     }
+
+    const customAlert =  
+    <CustomAlert
+        alertButtonClick = {hideAlert}
+        text = {alertText}
+        show = {showAlert}
+    />
+
+    const infoMenu =             
+    <InfoMenu
+        buildField = {buildField}
+        tries = {tries}
+    />
+
+    const preparedField = field.map((block) => {
+        return <FieldBlock
+            key = {block.key}
+            className = {block.className}
+            click = {() => {clickBlock(block.key)}}
+        />
+    }) 
 
     const tipButton = keepPlaying ? 
     <Button
@@ -91,24 +117,9 @@ const Field = () => {
 
     return (
         <div className="Field">
-            <CustomAlert
-                alertButtonClick = {hideAlert}
-                text = {alertText}
-                show = {showAlert}
-            />
-            <InfoMenu
-                buildField = {buildField}
-                tries = {tries}
-            />
-            {
-                field.map((block) => {
-                    return <FieldBlock
-                        key = {block.key}
-                        className = {block.className}
-                        click = {() => {clickBlock(block.key)}}
-                    />
-                })
-            }
+            {customAlert}
+            {infoMenu}
+            {preparedField}
             <div className="Tip_button_container">
                 {tipButton}
             </div>
