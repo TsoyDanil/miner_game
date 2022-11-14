@@ -1,4 +1,3 @@
-import './App.css';
 import Field from './components/Field/Field';
 import React  from 'react';
 
