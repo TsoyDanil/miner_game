@@ -7,7 +7,7 @@ const InfoMenu = (props) => {
     return (
         <div className="InfoMenu">
         <Button
-            buttonName = 'BUILD FIELD'
+            buttonName = {'BUILD FIELD'}
             onClick = {props.buildField}
         />
 

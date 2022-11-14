@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import './Field.css'
+import Button from "../UI/Button/Button";
 import FieldBlock from "./FieldBlock/FieldBlock";
 import InfoMenu from "../InfoMenu/InfoMenu";
 import CustomAlert from "../UI/CustomAlert/CustomAlert";
@@ -10,7 +11,7 @@ const Field = () => {
     const [field, setField] = useState([])
     const [tries, setTries] = useState(0)
     const [showAlert, setShowAlert] = useState(false)
-    const [keepPlaying, setKeepPlaying] = useState(true)
+    const [keepPlaying, setKeepPlaying] = useState(false)
 
     const clickBlock = (i) => {
         if (keepPlaying){
@@ -19,7 +20,6 @@ const Field = () => {
             const copyArray = [...field]
             if (copyArray[index].hasItem === true){
                 copyArray[index].className = 'FieldBlock__with_item gradient-border'
-                console.log(`Tries2: ${tries}`)
                 setAlertText(`GREAT! YOU FOUND TREASURE IN ${tries + 1} TRIES`)
                 setShowAlert(true)
                 setKeepPlaying(false)
@@ -54,6 +54,21 @@ const Field = () => {
         setTries(0)
     }
 
+    const showTip = () => {
+        const index = field.findIndex(block => block.hasItem === true)
+        const blockNumber = index + 1
+        setAlertText(`I FEEL THERE IS SOMETHING IN BLOCK NUMBER: ${blockNumber}`)
+        setShowAlert(true)
+    }
+
+    const tipButton = keepPlaying ? 
+    <Button
+        buttonName = {'SHOW TIP'}
+        onClick = {showTip}
+    />
+    :
+    ''
+
     return (
         <div className="Field">
             <CustomAlert
@@ -74,6 +89,9 @@ const Field = () => {
                     />
                 })
             }
+            <div className="Tip_button_container">
+                {tipButton}
+            </div>
         </div>
     )
 }
