@@ -1,6 +1,12 @@
-.Field {
-    margin-top: 20px;
+.Field{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Field_blocks_container {
     max-width: 420px;
+    margin: 10px 0;
     width: 100%;
     display: flex;
     align-items: center;
@@ -9,8 +15,5 @@
 }
 
 .Tip_button_container{
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 20px;
 }

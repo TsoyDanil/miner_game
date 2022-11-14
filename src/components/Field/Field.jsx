@@ -119,7 +119,9 @@ const Field = () => {
         <div className="Field">
             {customAlert}
             {infoMenu}
-            {preparedField}
+            <div className="Field_blocks_container">
+                {preparedField}
+            </div>
             <div className="Tip_button_container">
                 {tipButton}
             </div>
